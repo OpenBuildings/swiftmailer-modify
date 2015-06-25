@@ -20,7 +20,6 @@ composer require clippings/swiftmailer-modify
 Usage
 -----
 ```
-
 if ($environment === 'testing') {
     $mailer->registerPLugin(new ModifyPlugin(function(Swift_Message $message) {
         $message->setSubject('[Test] '.$message->getSubject());
