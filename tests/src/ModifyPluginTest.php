@@ -12,7 +12,7 @@ use CL\Swiftmailer\ModifyPlugin;
 /**
  * @coversDefaultClass CL\Swiftmailer\ModifyPlugin
  */
-class InitTest extends PHPUnit_Framework_TestCase
+class ModifyPluginTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::beforeSendPerformed
@@ -21,32 +21,31 @@ class InitTest extends PHPUnit_Framework_TestCase
      */
     public function testTest()
     {
-        $mailer = Swift_Mailer::newInstance(Swift_NullTransport::newInstance());
-
-        $mailer->registerPLugin(new ModifyPlugin(function(Swift_Message $message) {
-            $message->setSubject('[test] '.$message->getSubject());
-        }));
-
-        $logger = new Swift_Plugins_MessageLogger();
-
-        $mailer->registerPLugin($logger);
+        $modifyPlugin = new ModifyPlugin(function(Swift_Message $message) {
+            $message->setSubject('[modified] '.$message->getSubject());
+        });
 
         $message = Swift_Message::newInstance();
 
-        $message
-            ->setSubject('My subject')
-            ->setBody('body')
-            ->setTo('other@example.com')
-            ->setFrom('me@example.com');
+        $message->setSubject('My subject');
 
-        $mailer->send($message);
+        $sendEvent = $this->createSendEvent($message);
 
-        $sent = $logger->getMessages();
+        $modifyPlugin->beforeSendPerformed($sendEvent);
 
-        $rendered = (string) $sent[0];
+        $this->assertEquals('[modified] My subject', $message->getSubject());
+    }
 
-        $expected = "Subject: [test] My subject\r\nFrom: me@example.com\r\nTo: other@example.com\r\nMIME-Version: 1.0\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\nbody";
+    private function createSendEvent($message)
+    {
+        $event = $this->getMockBuilder('Swift_Events_SendEvent')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $this->assertContains($expected, $rendered);
+        $event->expects($this->any())
+            ->method('getMessage')
+            ->will($this->returnValue($message));
+
+        return $event;
     }
 }
