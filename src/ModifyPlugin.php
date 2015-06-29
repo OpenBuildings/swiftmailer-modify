@@ -20,7 +20,7 @@ class ModifyPlugin implements Swift_Events_SendListener
     }
 
     /**
-     * Apply whitelist and blacklist to "to", "cc" and "bcc"
+     * Apply the modifier to the Swift_Message
      *
      * @param Swift_Events_SendEvent $evt
      */
