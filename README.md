@@ -4,7 +4,7 @@ Swiftmailer Modify
 [![Build Status](https://travis-ci.org/clippings/swiftmailer-modify.svg?branch=master)](https://travis-ci.org/clippings/swiftmailer-modify)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/clippings/swiftmailer-modify/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/clippings/swiftmailer-modify/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/clippings/swiftmailer-modify/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/clippings/swiftmailer-modify/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/{%repository_name%}/v/stable.png)](https://packagist.org/packages/clippings/swiftmailer-modify)
+[![Latest Stable Version](https://poser.pugx.org/clippings/swiftmailer-modify/v/stable)](https://packagist.org/packages/clippings/swiftmailer-modify)
 
 Modify all emails before sending
 
