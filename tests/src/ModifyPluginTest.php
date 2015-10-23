@@ -3,10 +3,7 @@
 namespace CL\Swiftmailer\Test;
 
 use PHPUnit_Framework_TestCase;
-use Swift_Mailer;
 use Swift_Message;
-use Swift_NullTransport;
-use Swift_Plugins_MessageLogger;
 use CL\Swiftmailer\ModifyPlugin;
 
 /**
@@ -19,7 +16,7 @@ class ModifyPluginTest extends PHPUnit_Framework_TestCase
      * @covers ::sendPerformed
      * @covers ::__construct
      */
-    public function testTest()
+    public function testEvents()
     {
         $modifyPlugin = new ModifyPlugin(function(Swift_Message $message) {
             $message->setSubject('[modified] '.$message->getSubject());
@@ -34,9 +31,24 @@ class ModifyPluginTest extends PHPUnit_Framework_TestCase
         $modifyPlugin->beforeSendPerformed($sendEvent);
 
         $this->assertEquals('[modified] My subject', $message->getSubject());
+
+        $modifyPlugin->sendPerformed($sendEvent);
     }
 
-    private function createSendEvent($message)
+    /**
+     * @covers ::getModifier
+     * @covers ::__construct
+     */
+    public function testConstructor()
+    {
+        $modifier = [$this, 'createSendEvent'];
+
+        $modifyPlugin = new ModifyPlugin($modifier);
+
+        $this->assertSame($modifier, $modifyPlugin->getModifier());
+    }
+
+    public function createSendEvent($message)
     {
         $event = $this->getMockBuilder('Swift_Events_SendEvent')
             ->disableOriginalConstructor()

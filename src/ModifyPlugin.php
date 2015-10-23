@@ -3,7 +3,7 @@
 namespace CL\Swiftmailer;
 
 use Swift_Events_SendListener;
-use Closure;
+use Swift_Events_SendEvent;
 
 /**
  * @author    Ivan Kerin <ikerin@gmail.com>
@@ -12,11 +12,25 @@ use Closure;
  */
 class ModifyPlugin implements Swift_Events_SendListener
 {
+    /**
+     * @var callable
+     */
     private $modifier;
 
-    function __construct(Closure $modifier)
+    /**
+     * @param callable $modifier
+     */
+    function __construct(callable $modifier)
     {
         $this->modifier = $modifier;
+    }
+
+    /**
+     * @return callable
+     */
+    public function getModifier()
+    {
+        return $this->modifier;
     }
 
     /**
@@ -24,13 +38,11 @@ class ModifyPlugin implements Swift_Events_SendListener
      *
      * @param Swift_Events_SendEvent $evt
      */
-    public function beforeSendPerformed(\Swift_Events_SendEvent $evt)
+    public function beforeSendPerformed(Swift_Events_SendEvent $evt)
     {
         $message = $evt->getMessage();
 
-        $modifier = $this->modifier;
-
-        $modifier($message);
+        call_user_func($this->modifier, $message);
     }
 
     /**
@@ -38,7 +50,7 @@ class ModifyPlugin implements Swift_Events_SendListener
      *
      * @param Swift_Events_SendEvent $evt
      */
-    public function sendPerformed(\Swift_Events_SendEvent $evt)
+    public function sendPerformed(Swift_Events_SendEvent $evt)
     {
         // Do Nothing
     }
