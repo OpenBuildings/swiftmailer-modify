@@ -20,6 +20,8 @@ composer require clippings/swiftmailer-modify
 Usage
 -----
 
+This will add a "[Test]" prefix in a testing environment for every message
+
 ```php
 if ($environment === 'testing') {
     $mailer->registerPLugin(new ModifyPlugin(function(Swift_Message $message) {
