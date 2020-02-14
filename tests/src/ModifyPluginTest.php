@@ -2,14 +2,14 @@
 
 namespace CL\Swiftmailer\Test;
 
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Swift_Message;
 use CL\Swiftmailer\ModifyPlugin;
 
 /**
- * @coversDefaultClass CL\Swiftmailer\ModifyPlugin
+ * @coversDefaultClass \CL\Swiftmailer\ModifyPlugin
  */
-class ModifyPluginTest extends PHPUnit_Framework_TestCase
+class ModifyPluginTest extends TestCase
 {
     /**
      * @covers ::beforeSendPerformed
